@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>2048 Game</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #faf8ef;
+      text-align: center;
+    }
+    .board {
+      display: grid;
+      grid-template-columns: repeat(4, 80px);
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .cell {
+      width: 80px;
+      height: 80px;
+      background: #cdc1b4;
+      font-size: 24px;
+      font-weight: bold;
+      line-height: 80px;
+      color: #776e65;
+      border-radius: 8px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>2048</h1>
+  <div class="board" id="board"></div>
+  <button onclick="resetGame()">Restart</button>
+
+  <script>
+    const board = document.getElementById('board');
+    let tiles = [];
+
+    function createBoard() {
+      board.innerHTML = '';
+      tiles = [];
+      for (let i = 0; i < 16; i++) {
+        const tile = document.createElement('div');
+        tile.classList.add('cell');
+        tile.textContent = '';
+        board.appendChild(tile);
+        tiles.push(tile);
+      }
+    }
+
+    function addNumber() {
+      let empty = tiles.filter(t => t.textContent === '');
+      if (!empty.length) return;
+      let tile = empty[Math.floor(Math.random() * empty.length)];
+      tile.textContent = Math.random() > 0.5 ? '2' : '4';
+    }
+
+    function move(direction) {
+      let matrix = Array.from({length: 4}, (_, i) => tiles.slice(i * 4, i * 4 + 4));
+      if (direction === 'right') matrix.forEach(row => row.reverse());
+      if (direction === 'down') matrix = matrix[0].map((_, i) => matrix.map(row => row[i]));
+      if (direction === 'up') matrix = matrix[0].map((_, i) => matrix.map(row => row[i]).reverse());
+
+      let moved = false;
+      matrix.forEach(row => {
+        let nums = row.map(t => t.textContent).filter(n => n !== '');
+        for (let i = 0; i < nums.length - 1; i++) {
+          if (nums[i] === nums[i + 1]) {
+            nums[i] = (parseInt(nums[i]) * 2).toString();
+            nums[i + 1] = '';
+          }
+        }
+        nums = nums.filter(n => n !== '');
+        while (nums.length < 4) nums.push('');
+        row.forEach((t, i) => {
+          if (t.textContent !== nums[i]) moved = true;
+          t.textContent = nums[i];
+        });
+      });
+
+      if (moved) addNumber();
+    }
+
+    function resetGame() {
+      createBoard();
+      addNumber();
+      addNumber();
+    }
+
+    window.addEventListener('keydown', e => {
+      if (e.key.includes('Arrow')) {
+        move(e.key.replace('Arrow', '').toLowerCase());
+      }
+    });
+
+    resetGame();
+  </script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mood Tracker | Forest Zen</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    body {
+      background-color: #e8f5e9;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+    }
+
+    .mood-container {
+      max-width: 600px;
+      margin: auto;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 20px rgba(0, 128, 0, 0.15);
+      text-align: center;
+    }
+
+    .mood-picker {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+    }
+
+    .mood {
+      cursor: pointer;
+      font-size: 2rem;
+      transition: transform 0.2s;
+    }
+
+    .mood:hover {
+      transform: scale(1.2);
+    }
+
+    #moodSuggestion {
+      margin-top: 20px;
+      font-style: italic;
+      color: #2e7d32;
+    }
+
+    #moodHistory {
+      margin-top: 30px;
+      font-size: 0.95rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="mood-container">
+    <h2>How are you feeling today?</h2>
+
+    <div class="mood-picker">
+      <span class="mood" data-mood="Happy">😊</span>
+      <span class="mood" data-mood="Sad">😢</span>
+      <span class="mood" data-mood="Calm">😌</span>
+      <span class="mood" data-mood="Angry">😡</span>
+      <span class="mood" data-mood="Anxious">😰</span>
+    </div>
+
+    <div id="todayMood"></div>
+    <div id="moodSuggestion"></div>
+    <div id="moodHistory"></div>
+  </div>
+
+  <script>
+    const moodSuggestions = {
+      "Happy": "Play your favorite ambient sound 🎶 or celebrate with a victory Pomodoro!",
+      "Sad": "Try journaling using Sticky Notes or play a calming forest breeze 🌲.",
+      "Calm": "Maintain your vibe with Zen Breathing or a quiet Focus Lock session.",
+      "Angry": "Take a break with the Breathing Visualizer or draw on the Doodle Board.",
+      "Anxious": "Try Zen breathing, ambient rain, or a quick mood journal to relax."
+    };
+
+    const moodElements = document.querySelectorAll(".mood");
+
+    moodElements.forEach(el => {
+      el.addEventListener("click", () => {
+        const mood = el.getAttribute("data-mood");
+        const today = new Date().toLocaleDateString();
+
+        localStorage.setItem("mood-" + today, mood);
+        showMood();
+      });
+    });
+
+    function showMood() {
+      const today = new Date().toLocaleDateString();
+      const mood = localStorage.getItem("mood-" + today);
+
+      if (mood) {
+        document.getElementById("todayMood").innerHTML = <b>Today's Mood:</b> ${mood};
+        document.getElementById("moodSuggestion").textContent = moodSuggestions[mood] || "";
+      }
+
+      // Show last 5 entries
+      let history = "<b>Past Moods:</b><br>";
+      Object.keys(localStorage)
+        .filter(k => k.startsWith("mood-") && k !== "mood-" + today)
+        .sort()
+        .slice(-5)
+        .forEach(k => {
+          history += ${k.replace("mood-", "")}: ${localStorage.getItem(k)}<br>;
+        });
+      document.getElementById("moodHistory").innerHTML = history;
+    }
+
+    // Initial load
+    showMood();
+  </script>
+</body>
+</html>

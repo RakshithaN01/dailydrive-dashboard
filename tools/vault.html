@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DailyDrive - Mini Vault</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f1f8e9;
+      color: #33691e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .vault-container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 16px rgba(51, 105, 30, 0.2);
+      max-width: 500px;
+      width: 100%;
+    }
+
+    input[type="password"], textarea {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 12px;
+      border: 2px solid #aed581;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 8px;
+      background-color: #7cb342;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #558b2f;
+    }
+
+    .note-area {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>🔐 Mini Vault</h2>
+  <div class="vault-container">
+    <div class="login-area">
+      <input type="password" id="vaultPassword" placeholder="Enter Vault Password">
+      <button onclick="unlockVault()">Unlock</button>
+    </div>
+
+    <div class="note-area" id="noteArea">
+      <textarea id="vaultNote" rows="10" placeholder="Your secret note..."></textarea>
+      <button onclick="saveNote()">💾 Save</button>
+    </div>
+  </div>
+
+  <script>
+    const correctPassword = 'zen123'; // You can change this password
+    const vaultPassword = document.getElementById('vaultPassword');
+    const noteArea = document.getElementById('noteArea');
+    const vaultNote = document.getElementById('vaultNote');
+
+    function unlockVault() {
+      if (vaultPassword.value === correctPassword) {
+        document.querySelector('.login-area').style.display = 'none';
+        noteArea.style.display = 'block';
+        vaultNote.value = sessionStorage.getItem('vaultNote') || '';
+      } else {
+        alert('Incorrect password!');
+      }
+    }
+
+    function saveNote() {
+      sessionStorage.setItem('vaultNote', vaultNote.value);
+      alert('Note saved securely!');
+    }
+  </script>
+</body>
+</html>

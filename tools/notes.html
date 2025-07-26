@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DailyDrive - Sticky Notes</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    body {
+      background: #fffde7;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+      color: #333;
+    }
+    h2 {
+      text-align: center;
+      color: #f57f17;
+    }
+    .notes-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+      justify-content: center;
+    }
+    .note {
+      width: 180px;
+      height: 180px;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      resize: none;
+      font-size: 0.9rem;
+      font-family: inherit;
+      border: none;
+      outline: none;
+    }
+    .add-note-btn {
+      background: #fbc02d;
+      color: #000;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <h2>📝 Sticky Notes</h2>
+  <button class="add-note-btn" onclick="addNote()">+ Add Note</button>
+  <div class="notes-container" id="notesContainer"></div>
+
+  <script>
+    const notesContainer = document.getElementById("notesContainer");
+    const colors = ["#fff9c4", "#ffe0b2", "#c8e6c9", "#bbdefb", "#f8bbd0"];
+
+    function loadNotes() {
+      const notes = JSON.parse(localStorage.getItem("stickyNotes") || "[]");
+      notes.forEach((note, i) => createNote(note.text, i, note.color));
+    }
+
+    function createNote(text = "", id, color = null) {
+      const note = document.createElement("textarea");
+      note.className = "note";
+      note.placeholder = "Write something...";
+      note.value = text;
+      note.style.background = color || colors[Math.floor(Math.random() * colors.length)];
+
+      note.addEventListener("input", () => saveNotes());
+      note.addEventListener("dblclick", () => {
+        if (confirm("Delete this note?")) {
+          note.remove();
+          saveNotes();
+        }
+      });
+
+      notesContainer.appendChild(note);
+      saveNotes();
+    }
+
+    function addNote() {
+      createNote();
+    }
+
+    function saveNotes() {
+      const notes = [];
+      document.querySelectorAll(".note").forEach(note => {
+        notes.push({
+          text: note.value,
+          color: note.style.background
+        });
+      });
+      localStorage.setItem("stickyNotes", JSON.stringify(notes));
+    }
+
+    loadNotes();
+  </script>
+</body>
+</html>

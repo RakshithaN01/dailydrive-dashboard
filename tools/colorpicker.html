@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DailyDrive - Color Picker</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    body {
+      background-color: #e8f5e9;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      color: #1b5e20;
+    }
+
+    h2 {
+      margin-bottom: 30px;
+    }
+
+    .picker-container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 16px rgba(27, 94, 32, 0.2);
+      text-align: center;
+    }
+
+    .color-box {
+      width: 120px;
+      height: 120px;
+      border-radius: 15px;
+      margin: 20px auto;
+      border: 2px solid #66bb6a;
+    }
+
+    .hex-code, .rgb-code {
+      margin: 10px 0;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    input[type="color"] {
+      margin-top: 20px;
+      width: 100px;
+      height: 50px;
+      border: none;
+      cursor: pointer;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      background-color: #43a047;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2e7d32;
+    }
+  </style>
+</head>
+<body>
+  <h2>🎨 Color Picker</h2>
+  <div class="picker-container">
+    <div class="color-box" id="color-box"></div>
+    <div class="hex-code" id="hex">HEX: #66bb6a</div>
+    <div class="rgb-code" id="rgb">RGB: rgb(102,187,106)</div>
+    <input type="color" id="colorInput" value="#66bb6a" onchange="updateColor()">
+    <button onclick="copyHex()">Copy HEX</button>
+    <button onclick="copyRGB()">Copy RGB</button>
+  </div>
+
+  <script>
+    const colorInput = document.getElementById('colorInput');
+    const colorBox = document.getElementById('color-box');
+    const hexDisplay = document.getElementById('hex');
+    const rgbDisplay = document.getElementById('rgb');
+
+    function updateColor() {
+      const hex = colorInput.value;
+      const rgb = hexToRGB(hex);
+
+      colorBox.style.backgroundColor = hex;
+      hexDisplay.textContent = HEX: ${hex};
+      rgbDisplay.textContent = RGB: ${rgb};
+    }
+
+    function hexToRGB(hex) {
+      const r = parseInt(hex.substr(1, 2), 16);
+      const g = parseInt(hex.substr(3, 2), 16);
+      const b = parseInt(hex.substr(5, 2), 16);
+      return rgb(${r}, ${g}, ${b});
+    }
+
+    function copyHex() {
+      navigator.clipboard.writeText(colorInput.value);
+      alert("HEX code copied!");
+    }
+
+    function copyRGB() {
+      navigator.clipboard.writeText(hexToRGB(colorInput.value));
+      alert("RGB value copied!");
+    }
+
+    window.onload = updateColor;
+  </script>
+</body>
+</html>

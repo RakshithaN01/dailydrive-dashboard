@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sudoku</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background: #f4f4f4;
+    }
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+    td {
+      border: 1px solid #333;
+      width: 40px;
+      height: 40px;
+    }
+    input {
+      width: 100%;
+      height: 100%;
+      font-size: 18px;
+      text-align: center;
+      border: none;
+    }
+    input:disabled {
+      background: #ddd;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sudoku</h1>
+  <table id="sudoku"></table>
+  <button onclick="resetSudoku()">Restart</button>
+
+  <script>
+    const preset = [
+      [5, 3, '', '', 7, '', '', '', ''],
+      [6, '', '', 1, 9, 5, '', '', ''],
+      ['', 9, 8, '', '', '', '', 6, ''],
+      [8, '', '', '', 6, '', '', '', 3],
+      [4, '', '', 8, '', 3, '', '', 1],
+      [7, '', '', '', 2, '', '', '', 6],
+      ['', 6, '', '', '', '', 2, 8, ''],
+      ['', '', '', 4, 1, 9, '', '', 5],
+      ['', '', '', '', 8, '', '', 7, 9]
+    ];
+
+    function createSudoku(grid) {
+      const table = document.getElementById('sudoku');
+      table.innerHTML = '';
+      for (let i = 0; i < 9; i++) {
+        const row = document.createElement('tr');
+        for (let j = 0; j < 9; j++) {
+          const cell = document.createElement('td');
+          const input = document.createElement('input');
+          input.type = 'number';
+          input.min = 1;
+          input.max = 9;
+          if (grid[i][j] !== '') {
+            input.value = grid[i][j];
+            input.disabled = true;
+          }
+          cell.appendChild(input);
+          row.appendChild(cell);
+        }
+        table.appendChild(row);
+      }
+    }
+
+    function resetSudoku() {
+      createSudoku(preset);
+    }
+
+    resetSudoku();
+  </script>
+</body>
+</html>

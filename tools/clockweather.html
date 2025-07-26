@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DailyDrive - Clock & Weather</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    body {
+      background: #e0f7fa;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      color: #006064;
+      padding: 20px;
+    }
+    .widget-box {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 96, 100, 0.2);
+      display: inline-block;
+      min-width: 300px;
+    }
+    .clock {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    .weather {
+      margin-top: 10px;
+      font-size: 1.1rem;
+    }
+    .city-input {
+      margin-top: 15px;
+    }
+    .city-input input {
+      padding: 8px;
+      border: 1px solid #006064;
+      border-radius: 8px;
+      margin-right: 5px;
+    }
+    .city-input button {
+      padding: 8px 12px;
+      background: #00acc1;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>🌤 Clock & Weather</h2>
+  <div class="widget-box">
+    <div id="clock" class="clock">--:--:--</div>
+    <div id="weather" class="weather">Loading weather...</div>
+    <div class="city-input">
+      <input type="text" id="cityInput" placeholder="Enter city (e.g. Bengaluru)">
+      <button onclick="fetchWeather()">Update</button>
+    </div>
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock').textContent = now.toLocaleTimeString();
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    const apiKey = "YOUR_OPENWEATHER_API_KEY"; // Use your API key here
+
+    async function fetchWeather(city = null) {
+      city = city || localStorage.getItem("city") || "Bengaluru";
+      try {
+        const res = await fetch(https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric);
+        const data = await res.json();
+        if (data.main) {
+          const temp = data.main.temp;
+          const desc = data.weather[0].description;
+          const display = 🌡 ${temp}°C | ${desc} in ${data.name};
+          document.getElementById("weather").textContent = display;
+          localStorage.setItem("city", data.name);
+        } else {
+          document.getElementById("weather").textContent = "City not found.";
+        }
+      } catch (err) {
+        document.getElementById("weather").textContent = "Offline: Using saved city.";
+      }
+    }
+
+    document.getElementById("cityInput").addEventListener("keyup", function (e) {
+      if (e.key === "Enter") fetchWeather(this.value);
+    });
+
+    fetchWeather();
+  </script>
+</body>
+</html>

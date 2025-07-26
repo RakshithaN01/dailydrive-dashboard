@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DailyDrive - Your Zen Productivity Space</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#2e7d32" />
+</head>
+<body>
+  <header>
+    <h1>🌿 DailyDrive</h1>
+    <p>Your peaceful zone for focus, growth, and clarity.</p>
+  </header>
+
+  <main>
+    <section class="tools-grid">
+      <a href="tools/todo.html" class="tool-card">📝 To-Do List</a>
+      <a href="tools/pomodoro.html" class="tool-card">⏳ Pomodoro Timer</a>
+      <a href="tools/notes.html" class="tool-card">📒 Sticky Notes</a>
+      <a href="tools/clockweather.html" class="tool-card">⏰ Clock & 🌦 Weather</a>
+      <a href="tools/youtubeplayer.html" class="tool-card">YouTube Mini Player</a>
+      <a href="tools/textformatter.html" class="tool-card">💬 Text Formatter</a>
+      <a href="tools/quotes.html" class="tool-card">💬 Daily Quotes</a>
+      <a href="tools/calculator.html" class="tool-card">🧮 Calculator</a>
+      <a href="tools/colorpicker.html" class="tool-card">🎨 Color Picker</a>
+      <a href="tools/vault.html" class="tool-card">🔐 Mini Vault</a>
+      <a href="tools/websiteblocker.html" class="tool-card">Website Blocker</a>
+      <a href="tools/website_blocker.html" class="tool-card">Website Blocker List</a>
+      <a href="tools/mood.html" class="tool-card">🙂 Mood Tracker</a>
+      <a href="tools/games/game.html" class="tool-card">🧠 Memory Games</a>
+      <a href="tools/file-converter.html" class="tool-card">🧾 File Converter</a>
+      <a href="tools/focuslock.html" class="tool-card">🚫 Focus Lock</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>Made with ❤ for productivity • © 2025 DailyDrive</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js")
+      .then(reg => console.log("Service Worker registered!", reg))
+      .catch(err => console.error("Service Worker registration failed:", err));
+  }
+</script>
+</body>
+</html>
+

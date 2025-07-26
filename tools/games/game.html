@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Play Games | DailyDrive</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #e0f7e9, #b2dfdb);
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+    }
+    h1 {
+      color: #2e7d32;
+      margin-top: 20px;
+    }
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      padding: 40px;
+      max-width: 800px;
+      margin: auto;
+    }
+    .game-tile {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+    }
+    .game-tile:hover {
+      transform: scale(1.05);
+    }
+    .game-tile a {
+      text-decoration: none;
+      color: #388e3c;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Play & Relax</h1>
+  <div class="game-grid">
+    <div class="game-tile"><a href="memory_game.html">🧠 Memory Match</a></div>
+    <div class="game-tile"><a href="whack.html">🐹 Whack-a-Mole</a></div>
+    <div class="game-tile"><a href="2048.html">2048</a></div>
+    <div class="game-tile"><a href="sudoku.html">🔢 Mini Sudoku</a></div>
+    <div class="game-tile"><a href="scramble.html">🔤 Word Scramble</a></div>
+  </div>
+</body>
+</html>

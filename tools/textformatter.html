@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DailyDrive - Text Formatter</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #e8f5e9;
+      padding: 20px;
+      color: #2e7d32;
+      text-align: center;
+    }
+    .formatter-box {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 15px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 5px 10px rgba(46, 125, 50, 0.2);
+    }
+    textarea {
+      width: 100%;
+      height: 180px;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      border: 1px solid #66bb6a;
+      font-size: 16px;
+    }
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    button {
+      background-color: #66bb6a;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>📝 Text Formatter</h2>
+  <div class="formatter-box">
+    <textarea id="inputText" placeholder="Enter your text here..."></textarea>
+    <div class="btn-group">
+      <button onclick="formatText('uppercase')">UPPERCASE</button>
+      <button onclick="formatText('lowercase')">lowercase</button>
+      <button onclick="formatText('capitalize')">Capitalize Each Word</button>
+      <button onclick="formatText('trim')">Trim Spaces</button>
+      <button onclick="clearText()">Clear</button>
+      <button onclick="copyText()">Copy</button>
+    </div>
+  </div>
+
+  <script>
+    function formatText(type) {
+      let text = document.getElementById("inputText").value;
+      if (type === "uppercase") {
+        text = text.toUpperCase();
+      } else if (type === "lowercase") {
+        text = text.toLowerCase();
+      } else if (type === "capitalize") {
+        text = text.replace(/\w\S*/g, function(word) {
+          return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
+        });
+      } else if (type === "trim") {
+        text = text.replace(/\s+/g, ' ').trim();
+      }
+      document.getElementById("inputText").value = text;
+    }
+
+    function clearText() {
+      document.getElementById("inputText").value = "";
+    }
+
+    function copyText() {
+      const textArea = document.getElementById("inputText");
+      textArea.select();
+      document.execCommand("copy");
+      alert("Copied to clipboard!");
+    }
+  </script>
+</body>
+</html>

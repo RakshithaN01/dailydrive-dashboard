@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Website Blocker List | DailyDrive</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    body {
+      padding: 20px;
+    }
+
+    .blocker-container {
+      max-width: 600px;
+      margin: auto;
+      background: #e8f5e9;
+      border-radius: 15px;
+      box-shadow: 0 0 8px rgba(0, 128, 0, 0.2);
+      padding: 20px;
+    }
+
+    .blocker-container h2 {
+      margin-bottom: 15px;
+    }
+
+    .blocker-form {
+      display: flex;
+      gap: 10px;
+    }
+
+    .blocker-form input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .blocker-form button {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    ul.blocked-list {
+      margin-top: 20px;
+      list-style: none;
+      padding: 0;
+    }
+
+    ul.blocked-list li {
+      background: #fff;
+      padding: 10px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .blocked-list button {
+      background: red;
+      color: white;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="blocker-container">
+    <h2>📵 Distraction Website Blocker List</h2>
+    <div class="blocker-form">
+      <input type="text" id="websiteInput" placeholder="Enter website URL (e.g. facebook.com)" />
+      <button onclick="addWebsite()">Add</button>
+    </div>
+    <ul id="websiteList" class="blocked-list"></ul>
+  </div>
+
+  <script>
+    const websiteInput = document.getElementById('websiteInput');
+    const websiteList = document.getElementById('websiteList');
+
+    let sites = JSON.parse(localStorage.getItem('blockedSites')) || [];
+
+    function saveSites() {
+      localStorage.setItem('blockedSites', JSON.stringify(sites));
+    }
+
+    function renderList() {
+      websiteList.innerHTML = '';
+      sites.forEach((site, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <span>${site}</span>
+          <button onclick="removeSite(${index})">Remove</button>
+        `;
+        websiteList.appendChild(li);
+      });
+    }
+
+    function addWebsite() {
+      const site = websiteInput.value.trim();
+      if (site && !sites.includes(site)) {
+        sites.push(site);
+        websiteInput.value = '';
+        saveSites();
+        renderList();
+      }
+    }
+
+    function removeSite(index) {
+      sites.splice(index, 1);
+      saveSites();
+      renderList();
+    }
+
+    // Initial Load
+    renderList();
+  </script>
+</body>
+</html>

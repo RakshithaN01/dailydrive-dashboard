@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Word Scramble</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: sans-serif;
+      background: #e0f7fa;
+    }
+    .word {
+      font-size: 26px;
+      margin: 20px;
+      font-weight: bold;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 18px;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Word Scramble</h1>
+  <div class="word" id="scrambled">Press Start</div>
+  <input type="text" id="guess" placeholder="Unscramble the word">
+  <button onclick="check()">Submit</button>
+  <button onclick="newWord()">New Word</button>
+  <p id="feedback"></p>
+
+  <script>
+    const words = ['banana', 'flower', 'school', 'planet', 'rocket', 'laptop', 'coding', 'number'];
+    let currentWord = '', scrambled = '', isAnswered = false;
+
+    function shuffle(word) {
+      return word.split('').sort(() => 0.5 - Math.random()).join('');
+    }
+
+    function newWord() {
+      const guessInput = document.getElementById('guess');
+      const feedback = document.getElementById('feedback');
+      isAnswered = false;
+      feedback.textContent = '';
+      guessInput.value = '';
+
+      currentWord = words[Math.floor(Math.random() * words.length)];
+      scrambled = shuffle(currentWord);
+      while (scrambled === currentWord) scrambled = shuffle(currentWord);
+
+      document.getElementById('scrambled').textContent = scrambled;
+    }
+
+    function check() {
+      if (isAnswered) return;
+      const user = document.getElementById('guess').value.toLowerCase();
+      const feedback = document.getElementById('feedback');
+      if (user === currentWord) {
+        feedback.textContent = '✅ Correct!';
+      } else {
+        feedback.textContent = ❌ Wrong! Correct was "${currentWord}";
+      }
+      isAnswered = true;
+    }
+
+    newWord();
+  </script>
+</body>
+</html>

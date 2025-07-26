@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Website Blocker – DailyDrive</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    body {
+      background-color: #f1f8e9;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 30px;
+      color: #33691e;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .blocker-box {
+      max-width: 500px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 12px rgba(102, 187, 106, 0.3);
+    }
+
+    input {
+      padding: 10px;
+      width: 80%;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 2px solid #aed581;
+    }
+
+    button {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      background-color: #689f38;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #558b2f;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    li {
+      background-color: #dcedc8;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .remove-btn {
+      background-color: #c62828;
+      border: none;
+      color: white;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+    }
+
+    .remove-btn:hover {
+      background-color: #b71c1c;
+    }
+  </style>
+</head>
+<body>
+  <h2>🌐 Website Blocker List</h2>
+  <div class="blocker-box">
+    <input type="text" id="siteInput" placeholder="Enter distracting site (e.g. youtube.com)" />
+    <button onclick="addBlockedSite()">➕ Add to Blocker List</button>
+
+    <ul id="blockedSitesList"></ul>
+  </div>
+
+  <script>
+    const input = document.getElementById("siteInput");
+    const list = document.getElementById("blockedSitesList");
+
+    function getBlockedSites() {
+      return JSON.parse(localStorage.getItem("blockedSites")) || [];
+    }
+
+    function saveBlockedSites(sites) {
+      localStorage.setItem("blockedSites", JSON.stringify(sites));
+    }
+
+    function displayBlockedSites() {
+      const sites = getBlockedSites();
+      list.innerHTML = "";
+      sites.forEach((site, index) => {
+        const li = document.createElement("li");
+        li.textContent = site;
+
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "×";
+        removeBtn.className = "remove-btn";
+        removeBtn.onclick = () => {
+          sites.splice(index, 1);
+          saveBlockedSites(sites);
+          displayBlockedSites();
+        };
+
+        li.appendChild(removeBtn);
+        list.appendChild(li);
+      });
+    }
+
+    function addBlockedSite() {
+      const site = input.value.trim();
+      if (site) {
+        const sites = getBlockedSites();
+        sites.push(site);
+        saveBlockedSites(sites);
+        input.value = "";
+        displayBlockedSites();
+      }
+    }
+
+    displayBlockedSites();
+  </script>
+</body>
+</html>

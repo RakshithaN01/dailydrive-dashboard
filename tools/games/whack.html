@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Whack-a-Mole</title>
+  <style>
+    body {
+      text-align: center;
+      background: #d0f0c0;
+      font-family: sans-serif;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .square {
+      width: 100px;
+      height: 100px;
+      background: #7fc97f;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .mole {
+      background: #333;
+    }
+    button {
+      padding: 10px;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Whack-a-Mole</h1>
+  <h3>Score: <span id="score">0</span></h3>
+  <div class="grid" id="grid"></div>
+  <button onclick="startGame()">Start / Restart</button>
+
+  <script>
+    const grid = document.getElementById('grid');
+    const scoreDisplay = document.getElementById('score');
+    let score = 0, currentMole = null, timer;
+
+    function createGrid() {
+      grid.innerHTML = '';
+      for (let i = 0; i < 9; i++) {
+        const square = document.createElement('div');
+        square.classList.add('square');
+        square.setAttribute('id', i);
+        square.addEventListener('click', () => {
+          if (square.id == currentMole) {
+            score++;
+            scoreDisplay.textContent = score;
+            currentMole = null;
+          }
+        });
+        grid.appendChild(square);
+      }
+    }
+
+    function randomMole() {
+      document.querySelectorAll('.square').forEach(s => s.classList.remove('mole'));
+      const moleSquare = grid.children[Math.floor(Math.random() * 9)];
+      moleSquare.classList.add('mole');
+      currentMole = moleSquare.id;
+    }
+
+    function startGame() {
+      clearInterval(timer);
+      score = 0;
+      scoreDisplay.textContent = score;
+      createGrid();
+      timer = setInterval(randomMole, 800);
+    }
+
+    createGrid();
+  </script>
+</body>
+</html>

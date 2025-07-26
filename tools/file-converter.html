@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>File Converter – DailyDrive</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    body {
+      background-color: #e8f5e9;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 30px;
+      text-align: center;
+      color: #2e7d32;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .converter-box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 8px 16px rgba(46, 125, 50, 0.2);
+    }
+
+    input, button {
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 2px solid #c5e1a5;
+    }
+
+    button {
+      background-color: #66bb6a;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #388e3c;
+    }
+
+    img.preview {
+      max-width: 100%;
+      margin-top: 15px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>📁 File Converter</h2>
+  <div class="converter-box">
+    <h3>Convert Image to PDF</h3>
+    <input type="file" id="imageInput" accept="image/*">
+    <button onclick="convertImageToPDF()">Convert & Download PDF</button>
+    <img id="previewImg" class="preview" />
+
+    <hr style="margin: 30px 0;">
+
+    <h3>Convert PDF to Images (Coming Soon)</h3>
+    <input type="file" id="pdfInput" disabled>
+    <button disabled>Preview & Convert</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    const imageInput = document.getElementById('imageInput');
+    const previewImg = document.getElementById('previewImg');
+
+    imageInput.addEventListener('change', function () {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          previewImg.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    async function convertImageToPDF() {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF();
+      const imgData = previewImg.src;
+
+      if (!imgData) {
+        alert("Please select an image first!");
+        return;
+      }
+
+      pdf.addImage(imgData, 'JPEG', 10, 10, 190, 0);
+      pdf.save("converted.pdf");
+    }
+  </script>
+</body>
+</html>
